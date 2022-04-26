@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="ur5e_hande">
+    <!-- Include the UR5e robot arm -->
+    <xacro:include filename="$(find ur_description)/urdf/ur5e.xacro" />
+
+    <!-- Include the Robotiq Hand-E gripper -->
+    <xacro:include filename="$(find robotiq_description)/urdf/robotiq_hande_gripper.xacro" />
+
+    <!-- Attach the gripper to the arm's tool flange -->
+    <joint name="tool_attachment" type="fixed">
+        <parent link="flange"/>
+        <child link = "gripper_root_link" />
+        <origin xyz="0.0 0.0 0.0" rpy="0 1.57 0" />
+    </joint> -->
+
+</robot>
