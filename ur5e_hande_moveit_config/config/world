@@ -1,0 +1,899 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='robot'>
+      <joint name='world_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+      <link name='base_link'>
+        <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>4</mass>
+          <inertia>
+            <ixx>0.00443333</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.00443333</iyy>
+            <iyz>0</iyz>
+            <izz>0.0072</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_inertia_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/base.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='base_link_inertia_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/base.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='shoulder_pan_joint' type='revolute'>
+        <pose relative_to='base_link'>0 0 0.1625 0 -0 3.14159</pose>
+        <parent>base_link</parent>
+        <child>shoulder_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>150</effort>
+            <velocity>3.14159</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='shoulder_link'>
+        <pose relative_to='shoulder_pan_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>3.7</mass>
+          <inertia>
+            <ixx>0.0102675</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0102675</iyy>
+            <iyz>0</iyz>
+            <izz>0.00666</izz>
+          </inertia>
+        </inertial>
+        <collision name='shoulder_link_collision'>
+          <pose>0 0 0 0 -0 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/shoulder.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='shoulder_link_visual'>
+          <pose>0 0 0 0 -0 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/shoulder.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='shoulder_lift_joint' type='revolute'>
+        <pose relative_to='shoulder_link'>0 0 0 1.5708 -0 0</pose>
+        <parent>shoulder_link</parent>
+        <child>upper_arm_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>150</effort>
+            <velocity>3.14159</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='upper_arm_link'>
+        <pose relative_to='shoulder_lift_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.2125 0 0.138 3.14159 1.57079 3.14159</pose>
+          <mass>8.393</mass>
+          <inertia>
+            <ixx>0.133886</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.133886</iyy>
+            <iyz>0</iyz>
+            <izz>0.0151074</izz>
+          </inertia>
+        </inertial>
+        <collision name='upper_arm_link_collision'>
+          <pose>0 0 0.138 1.5708 0 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/upperarm.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='upper_arm_link_visual'>
+          <pose>0 0 0.138 1.5708 0 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/upperarm.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='elbow_joint' type='revolute'>
+        <pose relative_to='upper_arm_link'>-0.425 0 0 0 -0 0</pose>
+        <parent>upper_arm_link</parent>
+        <child>forearm_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-3.14159</lower>
+            <upper>3.14159</upper>
+            <effort>150</effort>
+            <velocity>3.14159</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='forearm_link'>
+        <pose relative_to='elbow_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.1961 0 0.007 3.14159 1.57079 3.14159</pose>
+          <mass>2.275</mass>
+          <inertia>
+            <ixx>0.0312094</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0312094</iyy>
+            <iyz>0</iyz>
+            <izz>0.004095</izz>
+          </inertia>
+        </inertial>
+        <collision name='forearm_link_collision'>
+          <pose>0 0 0.007 1.5708 0 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/forearm.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='forearm_link_visual'>
+          <pose>0 0 0.007 1.5708 0 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/forearm.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='wrist_1_joint' type='revolute'>
+        <pose relative_to='forearm_link'>-0.3922 0 0.1333 0 -0 0</pose>
+        <parent>forearm_link</parent>
+        <child>wrist_1_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>28</effort>
+            <velocity>3.14159</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wrist_1_link'>
+        <pose relative_to='wrist_1_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1.219</mass>
+          <inertia>
+            <ixx>0.0025599</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0025599</iyy>
+            <iyz>0</iyz>
+            <izz>0.0021942</izz>
+          </inertia>
+        </inertial>
+        <collision name='wrist_1_link_collision'>
+          <pose>0 0 -0.127 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/wrist1.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wrist_1_link_visual'>
+          <pose>0 0 -0.127 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/wrist1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='wrist_2_joint' type='revolute'>
+        <pose relative_to='wrist_1_link'>0 -0.0997 -0 1.5708 -0 0</pose>
+        <parent>wrist_1_link</parent>
+        <child>wrist_2_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>28</effort>
+            <velocity>3.14159</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wrist_2_link'>
+        <pose relative_to='wrist_2_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1.219</mass>
+          <inertia>
+            <ixx>0.0025599</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0025599</iyy>
+            <iyz>0</iyz>
+            <izz>0.0021942</izz>
+          </inertia>
+        </inertial>
+        <collision name='wrist_2_link_collision'>
+          <pose>0 0 -0.0997 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/wrist2.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wrist_2_link_visual'>
+          <pose>0 0 -0.0997 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/wrist2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='wrist_3_joint' type='revolute'>
+        <pose relative_to='wrist_2_link'>0 0.0996 -0 -1.5708 0 0</pose>
+        <parent>wrist_2_link</parent>
+        <child>wrist_3_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>28</effort>
+            <velocity>3.14159</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wrist_3_link'>
+        <pose relative_to='wrist_3_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0.037499 0 -0 0</pose>
+          <mass>1.06177</mass>
+          <inertia>
+            <ixx>0.00198657</ixx>
+            <ixy>2.96903e-21</ixy>
+            <ixz>6.33124e-22</ixz>
+            <iyy>0.00197609</iyy>
+            <iyz>-2.235e-06</iyz>
+            <izz>0.000622927</izz>
+          </inertia>
+        </inertial>
+        <collision name='wrist_3_link_collision'>
+          <pose>0 0 -0.0989 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/collision/wrist3.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='wrist_3_link_fixed_joint_lump__gripper_root_link_collision_1'>
+          <pose>0 4e-06 0.005 0 -0.000796 -1.5708</pose>
+          <geometry>
+            <box>
+              <size>0.01 0.01 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='wrist_3_link_fixed_joint_lump__hand_e_link_collision_2'>
+          <pose>0 4e-06 0.005 0 -0.000796 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/robotiq/robotiq_description/meshes/hande/hand-e-collision.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='wrist_3_link_visual'>
+          <pose>0 0 -0.0989 1.5708 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/fmauch_universal_robot/ur_description/meshes/ur5e/visual/wrist3.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='wrist_3_link_fixed_joint_lump__gripper_root_link_visual_1'>
+          <pose>0 4e-06 0.005 0 -0.000796 -1.5708</pose>
+          <geometry>
+            <box>
+              <size>0.01 0.01 0.01</size>
+            </box>
+          </geometry>
+        </visual>
+        <visual name='wrist_3_link_fixed_joint_lump__hand_e_link_visual_2'>
+          <pose>0 4e-06 0.005 0 -0.000796 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/robotiq/robotiq_description/meshes/hande/hand-e.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/FlatBlack</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='hande_left_finger_joint' type='prismatic'>
+        <pose relative_to='wrist_3_link'>0 8.3e-05 0.104 0 -0.000796 -1.5708</pose>
+        <parent>wrist_3_link</parent>
+        <child>hande_left_finger</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.025</upper>
+            <effort>130</effort>
+            <velocity>0.15</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='hande_left_finger'>
+        <pose relative_to='hande_left_finger_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.02262 -0.00759 0.00738 0 -0 0</pose>
+          <mass>0.03804</mass>
+          <inertia>
+            <ixx>1.3567e-05</ixx>
+            <ixy>1.849e-06</ixy>
+            <ixz>3.622e-06</ixz>
+            <iyy>1.5784e-05</iyy>
+            <iyz>3.616e-06</iyz>
+            <izz>7.478e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='hande_left_finger_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/robotiq/robotiq_description/meshes/hande/finger_1-collision.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>1</kd>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='hande_left_finger_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/robotiq/robotiq_description/meshes/hande/finger_1.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='hande_right_finger_joint' type='prismatic'>
+        <pose relative_to='wrist_3_link'>0 8.3e-05 0.104 0 -0.000796 -1.5708</pose>
+        <parent>wrist_3_link</parent>
+        <child>hande_right_finger</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.025</upper>
+            <effort>130</effort>
+            <velocity>0.15</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='hande_right_finger'>
+        <pose relative_to='hande_right_finger_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.02262 0.00759 0.00738 0 -0 0</pose>
+          <mass>0.03804</mass>
+          <inertia>
+            <ixx>1.3567e-05</ixx>
+            <ixy>1.849e-06</ixy>
+            <ixz>-3.622e-06</ixz>
+            <iyy>1.5784e-05</iyy>
+            <iyz>-3.616e-06</iyz>
+            <izz>7.478e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='hande_right_finger_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/robotiq/robotiq_description/meshes/hande/finger_2-collision.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>1</kd>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='hande_right_finger_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/clark/Documents/meshtest_ws/src/robotiq/robotiq_description/meshes/hande/finger_2.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <static>0</static>
+      <plugin name='mimic_robotiq_hande' filename='libgazebo_mimic_joint_plugin.so'>
+        <joint>hande_left_finger_joint</joint>
+        <mimicJoint>hande_right_finger_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <offset>0.0</offset>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <light name='user_point_light_0' type='point'>
+      <pose>0.439808 -0.228998 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <state world_name='default'>
+      <sim_time>112 705000000</sim_time>
+      <real_time>207 474667553</real_time>
+      <wall_time>1651594803 583984777</wall_time>
+      <iterations>112705</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='robot'>
+        <pose>-0 -0 1e-06 -4e-06 -1.1e-05 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose>-0 -0 1e-06 -4e-06 -1.1e-05 0</pose>
+          <velocity>0 2e-06 0.000153 -0.009244 0.009676 1.5e-05</velocity>
+          <acceleration>0.000795 0.003291 0.305112 0.361882 0.501904 0.030796</acceleration>
+          <wrench>0.003181 0.013164 1.22045 0 -0 0</wrench>
+        </link>
+        <link name='forearm_link'>
+          <pose>0.012487 5.9e-05 0.587311 1.57092 -0.000151 -3.14149</pose>
+          <velocity>0.00614 -4.2e-05 -0.000201 0.002224 0.012991 0.000893</velocity>
+          <acceleration>0.438802 0.056321 0.313968 1.30754 -1.42012 -2.35359</acceleration>
+          <wrench>0.998275 0.128131 0.714278 0 -0 0</wrench>
+        </link>
+        <link name='hande_left_finger'>
+          <pose>0.505259 0.132261 0.384159 3.13592 -0.004434 5.7e-05</pose>
+          <velocity>0.002603 -1.9e-05 -0.006661 -0.003668 0.018052 -0.002251</velocity>
+          <acceleration>-0.887288 -0.197677 0.452318 2.50775 1.22623 -1.59293</acceleration>
+          <wrench>-0.033752 -0.00752 0.017206 0 -0 0</wrench>
+        </link>
+        <link name='hande_right_finger'>
+          <pose>0.505459 0.13226 0.384159 3.13593 -0.004455 0.000117</pose>
+          <velocity>0.002636 -3.7e-05 -0.006738 -0.003395 0.017197 0.00253</velocity>
+          <acceleration>2.52693 -0.119134 -6.32385 2.4751 -1.55349 1.4703</acceleration>
+          <wrench>0.096124 -0.004532 -0.240559 0 -0 0</wrench>
+        </link>
+        <link name='shoulder_link'>
+          <pose>-3e-06 0 0.162501 8.9e-05 -0.000124 -3.1415</pose>
+          <velocity>0.000698 0.000758 0.000143 1.1e-05 0.000351 0.00094</velocity>
+          <acceleration>1.39616 1.51677 0.286175 0.022198 0.702333 0.879741</acceleration>
+          <wrench>5.16581 5.61205 1.05885 0 -0 0</wrench>
+        </link>
+        <link name='upper_arm_link'>
+          <pose>-2e-06 1e-06 0.1625 1.57537 1.54141 -3.13692</pose>
+          <velocity>0.000618 0.000684 0.000158 0.001663 0.013199 0.001672</velocity>
+          <acceleration>0.602016 0.675906 0.783753 0.920369 -1.46062 2.03032</acceleration>
+          <wrench>5.05272 5.67288 6.57804 0 -0 0</wrench>
+        </link>
+        <link name='wrist_1_link'>
+          <pose>0.404674 0.133399 0.587229 -1.60299 1.56548 -0.032091</pose>
+          <velocity>0.005985 0.00032 -0.005216 0.000437 0.012822 0.001066</velocity>
+          <acceleration>0.269758 0.234737 0.78217 -2.26557 -0.695355 -2.16843</acceleration>
+          <wrench>0.328835 0.286145 0.953465 0 -0 0</wrench>
+        </link>
+        <link name='wrist_2_link'>
+          <pose>0.504373 0.133409 0.587754 -1.56554 -0.005635 -1.57073</pose>
+          <velocity>0.005967 0.000374 -0.006655 -0.001186 0.015295 0.000509</velocity>
+          <acceleration>0.219262 0.244061 0.668511 -3.02592 0.293437 -3.1114</acceleration>
+          <wrench>0.26728 0.297511 0.814914 0 -0 0</wrench>
+        </link>
+        <link name='wrist_3_link'>
+          <pose>0.504896 0.132847 0.488156 -3.13634 -0.005646 -1.57073</pose>
+          <velocity>0.004354 0.00019 -0.006687 -0.001955 0.016212 0.000458</velocity>
+          <acceleration>-0.421138 0.067714 0.61858 1.6957 -1.51849 -3.05121</acceleration>
+          <wrench>-0.447152 0.071897 0.656789 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_0'>
+        <pose>0.439808 -1.78005 1.72837 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>0.527601 -4.11591 2.66224 0 0.599643 1.4162</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

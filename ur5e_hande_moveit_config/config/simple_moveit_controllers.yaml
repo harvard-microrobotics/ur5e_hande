@@ -16,9 +16,3 @@ controller_list:
     default: True
     joints:
       - hande_left_finger_joint
-  - name: gripper_command
-    action_ns: gripper_action
-    type: GripperCommand
-    default: True
-    joints:
-      - hande_left_finger_joint
