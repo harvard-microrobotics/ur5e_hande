@@ -356,7 +356,6 @@
     <parent link="flange"/>
     <child link="tool0"/>
   </joint>
-  <!--  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_hande_gripper.urdf.xacro" /> -->
   <gazebo>
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <!-- <robotNamespace>/</robotNamespace>
@@ -533,6 +532,7 @@
       <offset>0.0</offset>
     </plugin>
   </gazebo>
+  <!-- Attach the gripper to the arm's tool flange -->
   <joint name="tool_attachment" type="fixed">
     <parent link="flange"/>
     <child link="gripper_root_link"/>
@@ -540,6 +540,11 @@
   </joint>
    --&gt;
 
-
-
+    
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </joint>
 </robot>
