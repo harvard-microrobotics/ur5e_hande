@@ -1,5 +1,5 @@
 # ur5e_hande
-ROS configurations for a UR5e with a Robotiq Hand-E Gripper
+ROS/MoveIt! configurations for a UR5e with a Robotiq Hand-E Gripper. This configuration was created by following [this tutorial on roboticscasual.com](https://roboticscasual.com/ros-tutorial-how-to-create-a-moveit-config-for-the-ur5-and-a-gripper/).
 
 ## Usage
 
