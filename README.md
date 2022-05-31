@@ -1,5 +1,14 @@
 # ur5e_hande
-ROS configurations for a UR5e with a Robotiq Hand-E Gripper
+ROS/MoveIt! configurations for a UR5e with a Robotiq Hand-E Gripper. This configuration was created by following [this tutorial](https://roboticscasual.com/ros-tutorial-how-to-create-a-moveit-config-for-the-ur5-and-a-gripper/) from Robotics Casual.
+
+## Installation
+1. Install campbel's [robotiq](https://github.com/cambel/robotiq/tree/noetic-devel) package.
+2. Install fmauch's [universal_robot](https://github.com/fmauch/universal_robot/tree/calibration_devel) package.
+
+```bash
+git clone -b noetic-devel https://github.com/cambel/robotiq.git
+git clone -b calibration_devel https://github.com/fmauch/universal_robot.git
+```
 
 ## Usage
 
