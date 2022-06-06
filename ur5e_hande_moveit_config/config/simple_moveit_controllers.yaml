@@ -15,4 +15,4 @@ controller_list:
     type: FollowJointTrajectory
     default: True
     joints:
-      - hande_left_finger_joint
+      - finger_joint

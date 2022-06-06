@@ -622,7 +622,7 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <joint name='hande_left_finger_joint' type='prismatic'>
+      <joint name='finger_joint' type='prismatic'>
         <pose relative_to='wrist_3_link'>0 8.3e-05 0.104 0 -0.000796 -1.5708</pose>
         <parent>wrist_3_link</parent>
         <child>hande_left_finger</child>
@@ -641,7 +641,7 @@
         </axis>
       </joint>
       <link name='hande_left_finger'>
-        <pose relative_to='hande_left_finger_joint'>0 0 0 0 -0 0</pose>
+        <pose relative_to='finger_joint'>0 0 0 0 -0 0</pose>
         <inertial>
           <pose>0.02262 -0.00759 0.00738 0 -0 0</pose>
           <mass>0.03804</mass>
@@ -787,7 +787,7 @@
       </plugin>
       <static>0</static>
       <plugin name='mimic_robotiq_hande' filename='libgazebo_mimic_joint_plugin.so'>
-        <joint>hande_left_finger_joint</joint>
+        <joint>finger_joint</joint>
         <mimicJoint>hande_right_finger_joint</mimicJoint>
         <multiplier>1.0</multiplier>
         <offset>0.0</offset>
